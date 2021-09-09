@@ -15,8 +15,8 @@ if __name__ == '__main__':
     workflow = "People"
 
     #data_file_name = "scarlets-and-blues-classifications.csv"
-    data_files = {"Meetings": "meetings-classifications.csv",
-                  "People": "people-classifications.csv"}
+    data_files = {"Meetings": "exports/meetings-classifications.csv",
+                  "People": "exports/people-classifications.csv"}
 
     data_file_name = data_files[workflow]
 
