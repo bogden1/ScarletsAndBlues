@@ -1,4 +1,4 @@
-#!/usr/bin/python3
+#!/usr/bin/env python3
 
 from record_reader_classes import classificationRow, classificationRecordSet, taskActions
 from record_aligner_class import recordAligner
