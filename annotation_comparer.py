@@ -4,7 +4,6 @@ import csv
 import json
 from record_reader_classes import classificationRecordSet, taskActions
 from record_aligner_class import recordAligner
-from needleman_wunsch import needleman_wunsch
 from collections import OrderedDict
 from multi_align import MultiAlign
 from utils import add_to_dict_num, add_to_dict_list

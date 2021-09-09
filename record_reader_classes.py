@@ -2,7 +2,6 @@
 
 import json
 from collections import OrderedDict
-from needleman_wunsch import needleman_wunsch
 
 ###################################################################################################
 # A set of container classes for Scarlets and Blues data

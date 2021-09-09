@@ -4,7 +4,6 @@ from record_reader_classes import classificationRow, classificationRecordSet, ta
 from record_aligner_class import recordAligner
 from annotation_comparer import annotationComparer
 from sandb_data_reader import sandbDataReader
-from needleman_wunsch import needleman_wunsch
 from local_align import local_align, all_alignment
 from collections import OrderedDict
 from multi_align import MultiAlign

@@ -11,7 +11,6 @@ class recordAligner:
 
     def align(self, recordA, recordB):
 
-        #NW = needleman_wunsch(recordA, recordB)
         LA = local_align(recordA, recordB)
         NW = all_alignment(LA, recordA, recordB)
         #print("A:",recordA[0:50])
