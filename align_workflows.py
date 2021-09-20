@@ -43,6 +43,20 @@ if __name__ == '__main__':
     #print("Ex2:", PT3.get_probability("jones","jonesy"))
     #print("Ex3:", PT3.get_probability("jones","jonesyyy"))
 
+    def align_prev_subject():
+        #print("index",C.annotation_key_index)
+        C.do_annotation_alignment()
+        rec_ids = C.get_alignment_mapping()
+        print("Rec ids", rec_ids)
+        for al in C.alignments_iter([rec_ids]):
+            if len(al) == 0:
+                continue
+            CC = confidenceCalculator(PT2)
+            if len(al[1]) == 0:
+                continue
+            for a in al[1]:
+                CC.add_value(a.get_delimited())
+            print([C.annotation_key_index[x[0]] for x in al[0]],"\t",al[0],"\t",[x.get_delimited() for x in al[1]],"\t", next(CC.conf_iter()))
 
     prev_subject = ""
     counter = 0
@@ -54,19 +68,7 @@ if __name__ == '__main__':
         if subject_name != prev_subject:
             print("New subject:", subject_name)
             if prev_subject != "":
-                #print("index",C.annotation_key_index)
-                C.do_annotation_alignment()
-                rec_ids = C.get_alignment_mapping()
-                print("Rec ids", rec_ids)
-                for al in C.alignments_iter([rec_ids]):
-                    if len(al) == 0:
-                        continue
-                    CC = confidenceCalculator(PT2)
-                    if len(al[1]) == 0:
-                        continue
-                    for a in al[1]:
-                        CC.add_value(a.get_delimited())
-                    print([C.annotation_key_index[x[0]] for x in al[0]],"\t",al[0],"\t",[x.get_delimited() for x in al[1]],"\t", next(CC.conf_iter()))
+                align_prev_subject()
             subject_keys = []
             C.clear()
         C.add_row(row)
