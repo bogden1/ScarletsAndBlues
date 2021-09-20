@@ -64,13 +64,13 @@ if __name__ == '__main__':
         row = DR.get_row_by_id(row_id)
         subject_name = row.get_by_key("subject_name")
         classification_id = row.get_by_key("classification_id")
-        print(row.items.keys())
         if subject_name != prev_subject:
-            print("New subject:", subject_name)
             if prev_subject != "":
+                print("New subject:", prev_subject)
                 align_prev_subject()
             subject_keys = []
             C.clear()
+        print(row.items.keys())
         C.add_row(row)
         subject_keys.append(classification_id)
         prev_subject = subject_name
