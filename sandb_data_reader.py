@@ -48,7 +48,8 @@ class sandbDataReader:
     def workflow_subject_iter(self, workflow, min_count=1,max_count=100):
         
         subject_index = self.workflow_subject_index[workflow]
-        for k,v in subject_index.items():
+        for k in sorted(subject_index.keys()):
+            v = subject_index[k]
             if min_count <= len(v) <= max_count:
                 for row_id in v:
                     yield row_id
