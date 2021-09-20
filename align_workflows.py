@@ -60,7 +60,7 @@ if __name__ == '__main__':
             print([C.annotation_key_index[x[0]] for x in al[0]],"\t",al[0],"\t",[x.get_delimited() for x in al[1]],"\t", next(CC.conf_iter()))
         C.clear()
 
-    subject_it = DR.workflow_subject_iter(workflow,3,4)
+    subject_it = DR.workflow_subject_iter(workflow)
     first_row = DR.get_row_by_id(next(subject_it))
     print(first_row.items.keys())
     C.add_row(first_row)
