@@ -49,15 +49,13 @@ if __name__ == '__main__':
         C.do_annotation_alignment()
         rec_ids = C.get_alignment_mapping()
         print("Rec ids", rec_ids)
-        for al in C.alignments_iter([rec_ids]):
-            if len(al) == 0:
-                continue
+        for paths, classifications in C.alignments_iter([rec_ids]):
             CC = confidenceCalculator(PT2)
-            if len(al[1]) == 0:
+            if len(classifications) == 0:
                 continue
-            for a in al[1]:
-                CC.add_value(a.get_delimited())
-            print([C.annotation_key_index[x[0]] for x in al[0]],"\t",al[0],"\t",[x.get_delimited() for x in al[1]],"\t", next(CC.conf_iter()))
+            for classification in classifications:
+                CC.add_value(classification.get_delimited())
+            print([C.annotation_key_index[x[0]] for x in paths],"\t",paths,"\t",[x.get_delimited() for x in classifications],"\t", next(CC.conf_iter()))
         C.clear()
 
     subject_it = DR.workflow_subject_iter(workflow)
