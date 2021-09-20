@@ -74,4 +74,5 @@ if __name__ == '__main__':
         C.add_row(row)
         subject_keys.append(classification_id)
         prev_subject = subject_name
-
+    print("New subject:", subject_name)
+    align_prev_subject()
