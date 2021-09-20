@@ -58,15 +58,18 @@ if __name__ == '__main__':
                 CC.add_value(a.get_delimited())
             print([C.annotation_key_index[x[0]] for x in al[0]],"\t",al[0],"\t",[x.get_delimited() for x in al[1]],"\t", next(CC.conf_iter()))
 
-    prev_subject = ""
-    for row_id in DR.workflow_subject_iter(workflow,3,4):
+    subject_it = DR.workflow_subject_iter(workflow,3,4)
+    first_row = DR.get_row_by_id(next(subject_it))
+    print(first_row.items.keys())
+    C.add_row(first_row)
+    prev_subject = first_row.get_by_key("subject_name")
+    for row_id in subject_it:
         row = DR.get_row_by_id(row_id)
         subject_name = row.get_by_key("subject_name")
         classification_id = row.get_by_key("classification_id")
         if subject_name != prev_subject:
-            if prev_subject != "":
-                print("New subject:", prev_subject)
-                align_prev_subject()
+            print("New subject:", prev_subject)
+            align_prev_subject()
             C.clear()
         print(row.items.keys())
         C.add_row(row)
