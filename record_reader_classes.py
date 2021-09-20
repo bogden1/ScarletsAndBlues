@@ -86,10 +86,12 @@ class classificationObject:
 
         if isinstance(index, list):
             if len(index) == 1:
-                if index[0] == -1:
-                    return ""
-                if index[0] not in self.key_index:
-                    return self.items
+                assert(index[0] != -1)
+                #if index[0] == -1:
+                #    return ""
+                assert(index[0] >= 0 and index[0] < len(self.key_index))
+                #if index[0] >= len(self.key_index):
+                #    return self.items
                 return self.items[self.key_index[index[0]]]
             else:
                 if isinstance(self.items[self.key_index[index[0]]], classificationObject):
@@ -97,10 +99,12 @@ class classificationObject:
                 else:
                     print(self.items[self.key_index[index[0]]],"not CO")
         else:
-            if index == -1:
-                return ""
-            if index not in self.key_index:
-                return self.items
+            assert(index != -1)
+            assert(index >= 0 and index < len(self.key_index))
+            #if index == -1:
+            #    return ""
+            #if index >= len(self.key_index):
+            #    return self.items
             return self.items[self.key_index[index]]
 
     def __str__(self):
