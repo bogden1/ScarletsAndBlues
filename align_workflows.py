@@ -45,6 +45,7 @@ if __name__ == '__main__':
 
     def align_prev_subject():
         #print("index",C.annotation_key_index)
+        print("New subject:", prev_subject)
         C.do_annotation_alignment()
         rec_ids = C.get_alignment_mapping()
         print("Rec ids", rec_ids)
@@ -57,6 +58,7 @@ if __name__ == '__main__':
             for a in al[1]:
                 CC.add_value(a.get_delimited())
             print([C.annotation_key_index[x[0]] for x in al[0]],"\t",al[0],"\t",[x.get_delimited() for x in al[1]],"\t", next(CC.conf_iter()))
+        C.clear()
 
     subject_it = DR.workflow_subject_iter(workflow,3,4)
     first_row = DR.get_row_by_id(next(subject_it))
@@ -68,11 +70,8 @@ if __name__ == '__main__':
         subject_name = row.get_by_key("subject_name")
         classification_id = row.get_by_key("classification_id")
         if subject_name != prev_subject:
-            print("New subject:", prev_subject)
             align_prev_subject()
-            C.clear()
         print(row.items.keys())
         C.add_row(row)
         prev_subject = subject_name
-    print("New subject:", subject_name)
     align_prev_subject()
