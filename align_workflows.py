@@ -50,9 +50,9 @@ if __name__ == '__main__':
         rec_ids = C.get_alignment_mapping()
         print("Rec ids", rec_ids)
         for paths, classifications in C.alignments_iter([rec_ids]):
-            CC = confidenceCalculator(PT2)
             if len(classifications) == 0:
                 continue
+            CC = confidenceCalculator(PT2)
             for classification in classifications:
                 CC.add_value(classification.get_delimited())
             print([C.annotation_key_index[x[0]] for x in paths],"\t",paths,"\t",[x.get_delimited() for x in classifications],"\t", next(CC.conf_iter()))
