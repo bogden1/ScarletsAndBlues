@@ -47,15 +47,14 @@ class annotationComparer:
             task_list = tasks
         self.task_actions[workflow][field].add(action, task_list)
 
-    def add_row(self, classification_row):
+    def add_row(self, classification_row, sub_workflow):
 
-        workflow_name = classification_row.get_by_key('workflow_name')
-        self.workflows.add(workflow_name)
+        self.workflows.add(sub_workflow)
         assert len(self.workflows) <= 1, "Can only compare records from the same workflow"  # this will raise an error which isn't caught
         assert len(self.subjects) <= 1, "Can only compare records of the same subject"
         annotation = classification_row.get_by_key('annotations')
         RS = classificationRecordSet(parent=self)
-        RS.set_actions(self.task_actions[workflow_name]['annotations'].actions)
+        RS.set_actions(self.task_actions[sub_workflow]['annotations'].actions)
         RS.add_annotation(annotation)
         if RS.has_dittos:
             print("****************************HAS DITTOS************************")

@@ -35,22 +35,27 @@ def new_record(old_paths, new_paths):
 
 if __name__ == '__main__':
 
-    workflow = "People"
+    sub_workflow = "persons"
+    workflow = {
+        "persons": "People"
+    }
+    headings = {
+        "persons":    ['Surname', 'First name(s)', 'Title', 'Position', 'Subject', 'Pages']
+    }
 
     #data_file_name = "scarlets-and-blues-classifications.csv"
     data_files = {"Meetings": "exports/meetings-classifications.csv",
                   "People": "exports/people-classifications.csv"}
-
-    data_file_name = data_files[workflow]
+    data_file_name = data_files[workflow[sub_workflow]]
 
     DR = sandbDataReader()
     DR.load_data(data_file_name)
 
     C = annotationComparer()
 
-    C.add_taskactions('People',   'annotations', 'create',['T20','T7'])  #, 'close':'T7', 'add':['T1','T2','T10','T11']})
-    C.add_taskactions('People',   'annotations', 'close','T7')  #, 'close':'T7', 'add':['T1','T2','T10','T11']})
-    C.add_taskactions('People',   'annotations', 'add',['T1','T2','T10','T11'])
+    C.add_taskactions('persons',   'annotations', 'create',['T20','T7'])  #, 'close':'T7', 'add':['T1','T2','T10','T11']})
+    C.add_taskactions('persons',   'annotations', 'close','T7')  #, 'close':'T7', 'add':['T1','T2','T10','T11']})
+    C.add_taskactions('persons',   'annotations', 'add',['T1','T2','T10','T11'])
     C.add_taskactions('Meetings', 'annotations', 'create',['T0','T7','T25','T14'])
     C.add_taskactions('Meetings', 'annotations', 'close',['T55','T37','T15','T14'])
     C.add_taskactions('Meetings', 'annotations', 'add',['T21','T23','T24','T20'])
@@ -108,10 +113,10 @@ if __name__ == '__main__':
         return [[unresolved[number], prev_subject, number + 1, *fields] for number, fields in output_records.items()]
 
     workflow_output = []
-    subject_it = DR.workflow_subject_iter(workflow)
+    subject_it = DR.workflow_subject_iter(workflow[sub_workflow])
     first_row = DR.get_row_by_id(next(subject_it))
     print(first_row.items.keys())
-    C.add_row(first_row)
+    C.add_row(first_row, sub_workflow)
     prev_subject = first_row.get_by_key("subject_name")
     for row_id in subject_it:
         row = DR.get_row_by_id(row_id)
@@ -120,7 +125,7 @@ if __name__ == '__main__':
         if subject_name != prev_subject:
             workflow_output.extend(align_prev_subject())
         print(row.items.keys())
-        C.add_row(row)
+        C.add_row(row, sub_workflow)
         prev_subject = subject_name
     workflow_output.extend(align_prev_subject())
 
@@ -130,7 +135,7 @@ if __name__ == '__main__':
         if x[0] == 0:
             x[0] = None
 
-    with open('persons.csv', 'w') as f:
+    with open(f'{sub_workflow}.csv', 'w') as f:
         w = csv.writer(f)
-        w.writerow(['Unresolved', 'Page', 'Record', 'Surname', 'First name(s)', 'Title', 'Position', 'Subject', 'Pages'])
+        w.writerow(['Unresolved', 'Page', 'Record'] + headings[sub_workflow])
         w.writerows(workflow_output)
