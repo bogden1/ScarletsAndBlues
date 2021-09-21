@@ -47,7 +47,7 @@ if __name__ == '__main__':
         #print("index",C.annotation_key_index)
         print("New subject:", prev_subject)
         C.do_annotation_alignment()
-        rec_ids = C.get_alignment_mapping()
+        rec_ids = C.get_alignment_mapping() #List of pairwise record comparisons sufficient to compare all records
         print("Rec ids", rec_ids)
         for paths, classifications in C.alignments_iter([rec_ids], depth = 1):
             if len(classifications) == 0:
