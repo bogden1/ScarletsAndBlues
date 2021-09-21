@@ -218,7 +218,18 @@ class classificationRecordSet(classificationObject):
                             # Ideally this would be the 'create' task and would also provide a label
                             # for the type of record.
                             print("********** Warning: expected create action missing:",this_ann['task'])
-                        R.add(this_ann['value'], this_ann['task'])  # Add field value to the current record
+
+                        #Hacky: treat dropdowns as strings, instead of reconciling on their own terms.
+                        #TODO: Consider writing custom comparison code for dropdowns. If not, consider
+                        #      converting them into strings where we manipulate the task queue (higher
+                        #      in this same function), just to keep all of our manipulations together.
+                        if 'task_type' in this_ann:
+                            if this_ann['task_type'] == 'dropdown-simple':
+                                R.add(this_ann['value']['label'], this_ann['task'])
+                            else:
+                                assert False, 'Surprising task type'
+                        else:
+                            R.add(this_ann['value'], this_ann['task'])  # Add field value to the current record
                         if R.has_dittos:
                             self.has_dittos = True
 
