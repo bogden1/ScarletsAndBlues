@@ -49,7 +49,7 @@ if __name__ == '__main__':
         C.do_annotation_alignment()
         rec_ids = C.get_alignment_mapping()
         print("Rec ids", rec_ids)
-        for paths, classifications in C.alignments_iter([rec_ids]):
+        for paths, classifications in C.alignments_iter([rec_ids], depth = 1):
             if len(classifications) == 0:
                 continue
             CC = confidenceCalculator(PT2)
