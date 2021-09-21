@@ -70,6 +70,11 @@ class classificationObject:
         if isinstance(value, str):
             if len(value) == 0:
                 value = chr(0)  # This is needed for aligning empty strings/values
+
+        if key in self.items: #Sometimes we have multiple instances of the same key (e.g. repeatable fields)
+            key += f'_{len(self.items)}'
+        assert not key in self.items
+
         self.items[key] = value
         self.key_index.append(key)
 
