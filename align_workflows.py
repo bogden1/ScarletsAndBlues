@@ -86,7 +86,9 @@ if __name__ == '__main__':
             classification_strs = [x.get_delimited() for x in classifications]
             for c in classification_strs:
                 CC.add_value(c)
-            print(output_record_number,"\t",[C.annotation_key_index[x[0]] for x in paths],"\t",paths,"\t",classification_strs,"\t", next(CC.conf_iter()))
+            suggestion, probability, decibans = next(CC.conf_iter())
+
+            print(output_record_number,"\t",[C.annotation_key_index[x[0]] for x in paths],"\t",paths,"\t",classification_strs,"\t", [suggestion, probability, decibans])
 
             old_paths = paths
         C.clear()
