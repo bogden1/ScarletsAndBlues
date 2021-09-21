@@ -5,7 +5,7 @@ from record_aligner_class import recordAligner
 from annotation_comparer import annotationComparer
 from sandb_data_reader import sandbDataReader
 from local_align import local_align, all_alignment
-from collections import OrderedDict
+from collections import OrderedDict, defaultdict
 from multi_align import MultiAlign
 from utils import add_to_dict_num, add_to_dict_list
 
@@ -75,6 +75,7 @@ if __name__ == '__main__':
 
         old_paths = {}
         output_record_number = 0 #Will be incremented by 1 before the first output
+        output_records = defaultdict(list)
         for paths, classifications in C.alignments_iter([rec_ids], depth = 1):
             if len(classifications) == 0:
                 continue
@@ -89,10 +90,17 @@ if __name__ == '__main__':
             suggestion, probability, decibans = next(CC.conf_iter())
 
             print(output_record_number,"\t",[C.annotation_key_index[x[0]] for x in paths],"\t",paths,"\t",classification_strs,"\t", [suggestion, probability, decibans])
+            if decibans > 5:
+                output_records[output_record_number].append(suggestion)
+            else:
+                output_records[output_record_number].append(classification_strs)
 
             old_paths = paths
-        C.clear()
 
+        C.clear()
+        return [[prev_subject, number, *fields] for number, fields in output_records.items()]
+
+    workflow_output = []
     subject_it = DR.workflow_subject_iter(workflow)
     first_row = DR.get_row_by_id(next(subject_it))
     print(first_row.items.keys())
@@ -103,8 +111,14 @@ if __name__ == '__main__':
         subject_name = row.get_by_key("subject_name")
         classification_id = row.get_by_key("classification_id")
         if subject_name != prev_subject:
-            align_prev_subject()
+            workflow_output.extend(align_prev_subject())
         print(row.items.keys())
         C.add_row(row)
         prev_subject = subject_name
-    align_prev_subject()
+    workflow_output.extend(align_prev_subject())
+
+    import csv
+    with open('persons.csv', 'w') as f:
+        w = csv.writer(f)
+        w.writerow(['Page', 'Record', 'Surname', 'First name(s)', 'Title', 'Position', 'Subject', 'Pages'])
+        w.writerows(workflow_output)
