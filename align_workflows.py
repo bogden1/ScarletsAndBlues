@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 
-from record_reader_classes import classificationRow, classificationRecordSet, taskActions
+from record_reader_classes import classificationWord, classificationRow, classificationRecordSet, taskActions
 from record_aligner_class import recordAligner
 from annotation_comparer import annotationComparer
 from sandb_data_reader import sandbDataReader
@@ -88,6 +88,11 @@ if __name__ == '__main__':
             for c in classification_strs:
                 CC.add_value(c)
             suggestion, probability, decibans = next(CC.conf_iter())
+
+            #Fields consisting only of a blank word will contain only the word delimiter. Replace with empty string
+            classification_strs = ['' if x == classificationWord.delimiter else x for x in classification_strs]
+            if suggestion == classificationWord.delimiter:
+                suggestion = ''
 
             print(output_record_number,"\t",[C.annotation_key_index[x[0]] for x in paths],"\t",paths,"\t",classification_strs,"\t", [suggestion, probability, decibans])
             if decibans > 5:
