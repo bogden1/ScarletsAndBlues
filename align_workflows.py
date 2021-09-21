@@ -76,6 +76,7 @@ if __name__ == '__main__':
         old_paths = {}
         output_record_number = -1 #Will be incremented by 1 before first use
         output_records = defaultdict(list)
+        unresolved = defaultdict(lambda: 0)
         for paths, classifications in C.alignments_iter([rec_ids], depth = 1):
             if len(classifications) == 0:
                 continue
@@ -99,11 +100,12 @@ if __name__ == '__main__':
                 output_records[output_record_number].append(suggestion)
             else:
                 output_records[output_record_number].append(classification_strs)
+                unresolved[output_record_number] += 1
 
             old_paths = paths
 
         C.clear()
-        return [[prev_subject, number + 1, *fields] for number, fields in output_records.items()]
+        return [[unresolved[number], prev_subject, number + 1, *fields] for number, fields in output_records.items()]
 
     workflow_output = []
     subject_it = DR.workflow_subject_iter(workflow)
@@ -123,7 +125,12 @@ if __name__ == '__main__':
     workflow_output.extend(align_prev_subject())
 
     import csv
+    #In the CSV file, I want the 'Unresolved' column to have empty cells where nothing was unresolved
+    for x in workflow_output:
+        if x[0] == 0:
+            x[0] = None
+
     with open('persons.csv', 'w') as f:
         w = csv.writer(f)
-        w.writerow(['Page', 'Record', 'Surname', 'First name(s)', 'Title', 'Position', 'Subject', 'Pages'])
+        w.writerow(['Unresolved', 'Page', 'Record', 'Surname', 'First name(s)', 'Title', 'Position', 'Subject', 'Pages'])
         w.writerows(workflow_output)
