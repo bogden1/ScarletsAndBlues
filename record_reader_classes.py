@@ -197,8 +197,9 @@ class classificationRecordSet(classificationObject):
                 #print(this_ann)
                 if isinstance(this_ann['value'], list): # some tasks consist of sub-tasks which are held in a list
                                                         # This will convert a list into multiple entries in the queue
-                    for v in this_ann['value']:
-                        if 'task' in v:  # Things in lists are not always tasks
+                    if 'task' in this_ann['value'][0]:
+                        for v in this_ann['value']:
+                            assert 'task' in v, 'Broken assumption: value list can only be all tasks or all something else'
                             ann_queue.append(v)
 
                 if this_ann['task'] in self.actions:  # only interested in certain tasks
