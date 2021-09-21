@@ -9,6 +9,29 @@ from collections import OrderedDict
 from multi_align import MultiAlign
 from utils import add_to_dict_num, add_to_dict_list
 
+def new_record(old_paths, new_paths):
+    #Map RecordSet index to Record index
+    old_recs = {p[0]: p[1] for p in old_paths}
+    new_recs = {p[0]: p[1] for p in new_paths}
+
+    common_recordsets = list(set(new_recs.keys()).intersection(old_recs.keys()))
+
+    if len(common_recordsets) == 0: #No common RecordSets, must be new Record
+        return True
+    else: #There is at least one RecordSet in common
+        #If the Record is the same as before in every common RecordSet, we are still on the same Record
+        #If the Record is different from before in every common RecordSet, we are on a new Record.
+        #No other condition should be possible, so assert for that.
+        base_rs = common_recordsets.pop()
+        if new_recs[base_rs] == old_recs[base_rs]:
+            for rs in common_recordsets:
+                assert(new_recs[base_rs] == old_recs[base_rs])
+            return False
+        else:
+            for rs in common_recordsets:
+                assert(new_recs[base_rs] != old_recs[base_rs])
+            return True
+
 
 if __name__ == '__main__':
 
@@ -49,14 +72,23 @@ if __name__ == '__main__':
         C.do_annotation_alignment()
         rec_ids = C.get_alignment_mapping() #List of pairwise record comparisons sufficient to compare all records
         print("Rec ids", rec_ids)
+
+        old_paths = {}
+        output_record_number = 0 #Will be incremented by 1 before the first output
         for paths, classifications in C.alignments_iter([rec_ids], depth = 1):
             if len(classifications) == 0:
                 continue
+
+            if new_record(old_paths, paths):
+                output_record_number += 1
+
             CC = confidenceCalculator(PT2)
             classification_strs = [x.get_delimited() for x in classifications]
             for c in classification_strs:
                 CC.add_value(c)
-            print([C.annotation_key_index[x[0]] for x in paths],"\t",paths,"\t",classification_strs,"\t", next(CC.conf_iter()))
+            print(output_record_number,"\t",[C.annotation_key_index[x[0]] for x in paths],"\t",paths,"\t",classification_strs,"\t", next(CC.conf_iter()))
+
+            old_paths = paths
         C.clear()
 
     subject_it = DR.workflow_subject_iter(workflow)
