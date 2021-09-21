@@ -10,6 +10,19 @@ from multi_align import MultiAlign
 from utils import add_to_dict_num, add_to_dict_list
 import sys
 
+def standard_minute(ann):
+    assert ann['task'] == 'T14_mc'
+    v = ann['value']
+    number = v[0]
+    title, resolution = v[3:].split(':')
+    return [
+      {'task': 'T14_mc_sm_f', 'value': number},
+      {'task': 'T14_mc_sm_f', 'value': title.strip()},
+      {'task': 'T14_mc_sm_f', 'value': ''},
+      {'task': 'T14_mc_sm_f', 'value': resolution.strip()},
+      {'task': 'T14_mc_sm_r', 'value': None} #Dummy task to close the record on/open a new record
+    ]
+
 def new_record(old_paths, new_paths):
     #Map RecordSet index to Record index
     old_recs = {p[0]: p[1] for p in old_paths}
@@ -58,9 +71,10 @@ if __name__ == '__main__':
     C.add_taskactions('persons',   'annotations', 'create',['T20','T7'])  #, 'close':'T7', 'add':['T1','T2','T10','T11']})
     C.add_taskactions('persons',   'annotations', 'close','T7')  #, 'close':'T7', 'add':['T1','T2','T10','T11']})
     C.add_taskactions('persons',   'annotations', 'add',['T1','T2','T10','T11'])
-    C.add_taskactions('minutes', 'annotations', 'create',['T8','T37','T15','T55'])
-    C.add_taskactions('minutes', 'annotations', 'close',['T55'])
-    C.add_taskactions('minutes', 'annotations', 'add',['T22','T13','T5','T6','T10'])
+    C.add_taskactions('minutes', 'annotations', 'create',['T8','T37','T15','T55','T0','T14_mc_sm_r'])
+    C.add_taskactions('minutes', 'annotations', 'close',['T55','T15','T14_mc_sm_r'])
+    C.add_taskactions('minutes', 'annotations', 'add',['T22','T13','T5','T6','T10','T14_mc_sm_f'])
+    C.add_taskactions('minutes', 'annotations', standard_minute, 'T14_mc')
 
     from calc_confidence import probabilityTree, similarityComparator, equalsComparator, missingComparator, confidenceCalculator
     PT1 = probabilityTree(similarityComparator(), {1:0.6, 2:0.3, '*': 0.1})
