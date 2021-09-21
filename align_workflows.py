@@ -74,7 +74,7 @@ if __name__ == '__main__':
         print("Rec ids", rec_ids)
 
         old_paths = {}
-        output_record_number = 0 #Will be incremented by 1 before the first output
+        output_record_number = -1 #Will be incremented by 1 before first use
         output_records = defaultdict(list)
         for paths, classifications in C.alignments_iter([rec_ids], depth = 1):
             if len(classifications) == 0:
@@ -103,7 +103,7 @@ if __name__ == '__main__':
             old_paths = paths
 
         C.clear()
-        return [[prev_subject, number, *fields] for number, fields in output_records.items()]
+        return [[prev_subject, number + 1, *fields] for number, fields in output_records.items()]
 
     workflow_output = []
     subject_it = DR.workflow_subject_iter(workflow)
