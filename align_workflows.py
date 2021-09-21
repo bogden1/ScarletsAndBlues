@@ -36,11 +36,14 @@ def new_record(old_paths, new_paths):
 if __name__ == '__main__':
 
     sub_workflow = "persons"
+    sub_workflow = "minutes"
     workflow = {
-        "persons": "People"
+        "persons": "People",
+        "minutes": "Meetings",
     }
     headings = {
-        "persons":    ['Surname', 'First name(s)', 'Title', 'Position', 'Subject', 'Pages']
+        "persons":    ['Surname', 'First name(s)', 'Title', 'Position', 'Subject', 'Pages'],
+        "minutes":    ['#', 'Title', 'Item', 'Resolution', 'Subject'],
     }
 
     data_files = {"Meetings": "exports/meetings-classifications.csv",
@@ -55,11 +58,9 @@ if __name__ == '__main__':
     C.add_taskactions('persons',   'annotations', 'create',['T20','T7'])  #, 'close':'T7', 'add':['T1','T2','T10','T11']})
     C.add_taskactions('persons',   'annotations', 'close','T7')  #, 'close':'T7', 'add':['T1','T2','T10','T11']})
     C.add_taskactions('persons',   'annotations', 'add',['T1','T2','T10','T11'])
-    C.add_taskactions('Meetings', 'annotations', 'create',['T0','T7','T25','T14'])
-    C.add_taskactions('Meetings', 'annotations', 'close',['T55','T37','T15','T14'])
-    C.add_taskactions('Meetings', 'annotations', 'add',['T21','T23','T24','T20'])
-    C.add_taskactions('Meetings', 'annotations', 'add',['T9','T3'])
-    C.add_taskactions('Meetings', 'annotations', 'add',['T22','T6','T13','T10'])
+    C.add_taskactions('minutes', 'annotations', 'create',['T8','T37','T15','T55'])
+    C.add_taskactions('minutes', 'annotations', 'close',['T55'])
+    C.add_taskactions('minutes', 'annotations', 'add',['T22','T13','T5','T6','T10'])
 
     from calc_confidence import probabilityTree, similarityComparator, equalsComparator, missingComparator, confidenceCalculator
     PT1 = probabilityTree(similarityComparator(), {1:0.6, 2:0.3, '*': 0.1})
