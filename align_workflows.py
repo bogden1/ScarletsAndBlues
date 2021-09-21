@@ -8,6 +8,7 @@ from local_align import local_align, all_alignment
 from collections import OrderedDict, defaultdict
 from multi_align import MultiAlign
 from utils import add_to_dict_num, add_to_dict_list
+import sys
 
 def new_record(old_paths, new_paths):
     #Map RecordSet index to Record index
@@ -35,8 +36,7 @@ def new_record(old_paths, new_paths):
 
 if __name__ == '__main__':
 
-    sub_workflow = "persons"
-    sub_workflow = "minutes"
+    sub_workflow = sys.argv[1]
     workflow = {
         "persons": "People",
         "minutes": "Meetings",
