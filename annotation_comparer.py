@@ -41,10 +41,10 @@ class annotationComparer:
         if field not in self.task_actions[workflow]:
             self.task_actions[workflow][field] = taskActions()
         task_list = []
-        if isinstance(tasks, str): # allow for single task or list of tasks as parameter
-            task_list.append(str)
-        elif isinstance(tasks, list):
+        if isinstance(tasks, list):
             task_list = tasks
+        else: # currently should be either a string or a function
+            task_list.append(tasks)
         self.task_actions[workflow][field].add(action, task_list)
 
     def add_row(self, classification_row, sub_workflow):

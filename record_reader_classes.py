@@ -212,6 +212,11 @@ class classificationRecordSet(classificationObject):
 
                 if this_ann['task'] in self.actions:  # only interested in certain tasks
                     actions = self.actions[this_ann['task']]
+
+                    #If the action is a callable then it is supposed to extend the queue
+                    for callback in filter(lambda x: callable(x), actions):
+                        ann_queue.extend(callback(this_ann))
+
                     if 'close' in actions or 'create' in actions:
                         if R is not None:
                             self.add(R) # Add current record to the recordset
