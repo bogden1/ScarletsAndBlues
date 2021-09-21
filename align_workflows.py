@@ -53,9 +53,10 @@ if __name__ == '__main__':
             if len(classifications) == 0:
                 continue
             CC = confidenceCalculator(PT2)
-            for classification in classifications:
-                CC.add_value(classification.get_delimited())
-            print([C.annotation_key_index[x[0]] for x in paths],"\t",paths,"\t",[x.get_delimited() for x in classifications],"\t", next(CC.conf_iter()))
+            classification_strs = [x.get_delimited() for x in classifications]
+            for c in classification_strs:
+                CC.add_value(c)
+            print([C.annotation_key_index[x[0]] for x in paths],"\t",paths,"\t",classification_strs,"\t", next(CC.conf_iter()))
         C.clear()
 
     subject_it = DR.workflow_subject_iter(workflow)
