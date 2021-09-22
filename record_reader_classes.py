@@ -241,7 +241,10 @@ class classificationRecordSet(classificationObject):
                         #      in this same function), just to keep all of our manipulations together.
                         if 'task_type' in this_ann:
                             if this_ann['task_type'] == 'dropdown-simple':
-                                R.add(this_ann['value']['label'], this_ann['task'])
+                                if 'label' in this_ann['value']:
+                                    R.add(this_ann['value']['label'], this_ann['task'])
+                                else:
+                                    R.add('', this_ann['task'])
                             else:
                                 assert False, 'Surprising task type'
                         else:
