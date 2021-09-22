@@ -78,9 +78,7 @@ def new_record(old_paths, new_paths):
             return True
 
 
-if __name__ == '__main__':
-
-    sub_workflow = sys.argv[1]
+def main(sub_workflow):
     workflow = {
         "persons": "People",
         "minutes": "Meetings",
@@ -197,3 +195,10 @@ if __name__ == '__main__':
         w = csv.writer(f)
         w.writerow(['Unresolved', 'Page', 'Record'] + headings[sub_workflow])
         w.writerows(workflow_output)
+
+
+if __name__ == '__main__':
+    if len(sys.argv) > 1: sub_workflows = sys.argv[1:]
+    else: sub_workflows = workflow.keys()
+    for x in sub_workflows:
+        main(x)
