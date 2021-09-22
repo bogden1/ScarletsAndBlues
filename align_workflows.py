@@ -10,6 +10,7 @@ from multi_align import MultiAlign
 from utils import add_to_dict_num, add_to_dict_list
 import sys
 
+#Begin callbacks -- might make sense to put these in their own file
 def standard_minute(ann):
     assert ann['task'] == 'T14_mc'
     v = ann['value']
@@ -53,7 +54,10 @@ def table_rows(ann):
     fields.append({'task': f'{ann["task"]}_r', 'value': None})
 
     return fields
+#End callbacks
 
+#Determine if two lists of paths, in which all paths begin with a RecordSet
+#index followed by a Record index, mark a change in Record index.
 def new_record(old_paths, new_paths):
     #Map RecordSet index to Record index
     old_recs = {p[0]: p[1] for p in old_paths}
@@ -91,7 +95,6 @@ def main(sub_workflow):
         "attendance": ['Name'],
         "tables":     [],
     }
-
     data_files = {"Meetings": "exports/meetings-classifications.csv",
                   "People": "exports/people-classifications.csv"}
     data_file_name = data_files[workflow[sub_workflow]]
@@ -100,9 +103,8 @@ def main(sub_workflow):
     DR.load_data(data_file_name)
 
     C = annotationComparer()
-
-    C.add_taskactions('persons',   'annotations', 'create',['T20','T7'])  #, 'close':'T7', 'add':['T1','T2','T10','T11']})
-    C.add_taskactions('persons',   'annotations', 'close','T7')  #, 'close':'T7', 'add':['T1','T2','T10','T11']})
+    C.add_taskactions('persons',   'annotations', 'create',['T20','T7'])
+    C.add_taskactions('persons',   'annotations', 'close','T7')
     C.add_taskactions('persons',   'annotations', 'add',['T1','T2','T10','T11'])
     C.add_taskactions('minutes', 'annotations', 'create',['T8','T37','T15','T55','T0','T14_mc_sm_r'])
     C.add_taskactions('minutes', 'annotations', 'close',['T55','T15','T14_mc_sm_r'])
