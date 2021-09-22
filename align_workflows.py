@@ -95,12 +95,14 @@ def main(sub_workflow):
         "attendance": ['Name'],
         "tables":     [],
     }
+    workflow_version = {"Meetings": 71.196,
+                        "People": (0, 31.82)}
     data_files = {"Meetings": "exports/meetings-classifications.csv",
                   "People": "exports/people-classifications.csv"}
     data_file_name = data_files[workflow[sub_workflow]]
 
     DR = sandbDataReader()
-    DR.load_data(data_file_name)
+    DR.load_data(data_file_name, workflow_version[workflow[sub_workflow]])
 
     C = annotationComparer()
     C.add_taskactions('persons',   'annotations', 'create',['T20','T7'])

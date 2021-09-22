@@ -13,8 +13,7 @@ class sandbDataReader:
         self.user_index = {}
         self.workflow_subject_index = {}
 
-    def load_data(self, data_file_name, after_date = None):
-
+    def load_data(self, data_file_name, version = None, after_date = None):
         # TODO: Add a date filter to only process latest transcriptions
         if after_date is None:
             date_limit = '1/1/2021'
@@ -27,6 +26,14 @@ class sandbDataReader:
         next(csv_reader) #Ignore headings
 
         for row in csv_reader:
+            if not version is None:
+                row_version = float(row[6]) #Field index 6 is the workflow version
+                if isinstance(version, float):
+                    if row_version != version:
+                        continue
+                else: #Should be some indexable type defining min and max version nos, inclusive
+                    if row_version < version[0] or row_version > version[1]:
+                        continue
             R = classificationRow()
             R.add_row(row)
             self.data_rows.append(R)
