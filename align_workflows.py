@@ -53,10 +53,12 @@ if __name__ == '__main__':
     workflow = {
         "persons": "People",
         "minutes": "Meetings",
+        "attendance": "Meetings",
     }
     headings = {
         "persons":    ['Surname', 'First name(s)', 'Title', 'Position', 'Subject', 'Pages'],
         "minutes":    ['#', 'Title', 'Item', 'Resolution', 'Subject'],
+        "attendance": ['Name'],
     }
 
     data_files = {"Meetings": "exports/meetings-classifications.csv",
@@ -75,6 +77,9 @@ if __name__ == '__main__':
     C.add_taskactions('minutes', 'annotations', 'close',['T55','T15','T14_mc_sm_r'])
     C.add_taskactions('minutes', 'annotations', 'add',['T22','T13','T5','T6','T10','T14_mc_sm_f'])
     C.add_taskactions('minutes', 'annotations', standard_minute, 'T14_mc')
+    C.add_taskactions('attendance', 'annotations', 'create', ['T11', 'T9_mc'])
+    C.add_taskactions('attendance', 'annotations', 'close', ['T14', 'T9_mc'])
+    C.add_taskactions('attendance', 'annotations', 'add', 'T9_mc')
 
     from calc_confidence import probabilityTree, similarityComparator, equalsComparator, missingComparator, confidenceCalculator
     PT1 = probabilityTree(similarityComparator(), {1:0.6, 2:0.3, '*': 0.1})
