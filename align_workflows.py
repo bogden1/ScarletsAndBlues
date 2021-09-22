@@ -193,7 +193,7 @@ if __name__ == '__main__':
         if x[0] == 0:
             x[0] = None
 
-    with open(f'{sub_workflow}.csv', 'w') as f:
+    with open(f'output/{sub_workflow}.csv', 'w') as f:
         w = csv.writer(f)
         w.writerow(['Unresolved', 'Page', 'Record'] + headings[sub_workflow])
         w.writerows(workflow_output)
