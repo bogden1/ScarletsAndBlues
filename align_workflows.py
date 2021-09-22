@@ -32,6 +32,28 @@ def attendance_list(ann):
       attenders.append({'task': 'T3_r', 'value': None})
     return attenders
 
+def table_col_headings(ann):
+    assert ann['task'] == 'T23'
+    v = ann['value'].strip()
+    if len(v) == 0: return []
+    return [{'task': f'{ann["task"]}_f', 'value': x.strip()} for x in v.split(',')]
+
+def table_rows(ann):
+    assert ann['task'] == 'T20'
+    v = ann['value'].strip()
+    if len(v) == 0: return []
+    fields = []
+    for row in v.split('\n'):
+      fields.extend([{'task': f'{ann["task"]}_f', 'value': x.strip()} for x in row.split(',')])
+      fields.append({'task': f'{ann["task"]}_r', 'value': None})
+
+    #Just to create some space between tables in the CSV file
+    fields.append({'task': f'{ann["task"]}_r', 'value': None})
+    fields.append({'task': f'{ann["task"]}_f', 'value': ''})
+    fields.append({'task': f'{ann["task"]}_r', 'value': None})
+
+    return fields
+
 def new_record(old_paths, new_paths):
     #Map RecordSet index to Record index
     old_recs = {p[0]: p[1] for p in old_paths}
@@ -63,11 +85,13 @@ if __name__ == '__main__':
         "persons": "People",
         "minutes": "Meetings",
         "attendance": "Meetings",
+        "tables": "Meetings",
     }
     headings = {
         "persons":    ['Surname', 'First name(s)', 'Title', 'Position', 'Subject', 'Pages'],
         "minutes":    ['#', 'Title', 'Item', 'Resolution', 'Subject'],
         "attendance": ['Name'],
+        "tables":     [],
     }
 
     data_files = {"Meetings": "exports/meetings-classifications.csv",
@@ -90,6 +114,11 @@ if __name__ == '__main__':
     C.add_taskactions('attendance', 'annotations', 'close', ['T14', 'T9_mc', 'T3', 'T3_r'])
     C.add_taskactions('attendance', 'annotations', 'add', ['T9_mc', 'T3_f'])
     C.add_taskactions('attendance', 'annotations', attendance_list, 'T3')
+    C.add_taskactions('tables', 'annotations', 'create', ['T8', 'T37', 'T20', 'T20_r', 'T23', 'T24'])
+    C.add_taskactions('tables', 'annotations', 'close', ['T7', 'T37', 'T20', 'T20_r', 'T23', 'T24'])
+    C.add_taskactions('tables', 'annotations', table_rows, 'T20')
+    C.add_taskactions('tables', 'annotations', table_col_headings, 'T23')
+    C.add_taskactions('tables', 'annotations', 'add', ['T21', 'T24', 'T20_f', 'T23_f'])
 
     from calc_confidence import probabilityTree, similarityComparator, equalsComparator, missingComparator, confidenceCalculator
     PT1 = probabilityTree(similarityComparator(), {1:0.6, 2:0.3, '*': 0.1})
