@@ -24,12 +24,9 @@ class sandbDataReader:
         self.data_file_name = data_file_name
         file_handle = open(data_file_name, 'r')
         csv_reader = csv.reader(file_handle)
-        read_headings = True
+        next(csv_reader) #Ignore headings
 
         for row in csv_reader:
-            if read_headings:
-                read_headings = False
-                continue
             R = classificationRow()
             R.add_row(row)
             self.data_rows.append(R)
