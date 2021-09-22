@@ -52,7 +52,7 @@ class Ditto:
 
 class classificationObject:
 
-    delimiter = chr(32)
+    delimiter = chr(32) #This is space (i.e. ' ')
 
     def __init__(self, parent = None, predecessor = None):
 
@@ -174,7 +174,7 @@ class classificationRow(classificationObject):
 # For example a list of names in the People workflow
 class classificationRecordSet(classificationObject):
 
-    delimiter = chr(30)
+    delimiter = chr(30) #^^ in less
 
     #def __init__(self, parent=None, predecessor=None):
 
@@ -256,7 +256,7 @@ class classificationRecordSet(classificationObject):
 # Each item added will represent a field in the Record
 class classificationRecord(classificationObject):
 
-    delimiter = chr(31)
+    delimiter = chr(31) #^_ in less
 
     #def __init__(self, parent=None, predecessor=None):
 
@@ -305,7 +305,7 @@ class classificationField(classificationObject):
 
 class classificationWord(classificationObject):
 
-    delimiter = chr(0)
+    delimiter = chr(0) #^@ in less
     ditto_test = Ditto()
 
     def __init__(self, token=None, parent=None, predecessor=None):
@@ -338,7 +338,7 @@ class classificationWord(classificationObject):
 
 class classificationToken(classificationObject):
 
-    delimiter = chr(0)
+    delimiter = chr(0) #^@ in less
 
 
 # taskActions are used to identify recordssets, records and fields through the tasks in a workflow

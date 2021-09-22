@@ -4,6 +4,11 @@ from local_align import local_align, all_alignment
 
 class recordAligner:
 
+    #These default delimiters render as ^^, ^_, and the space character in tools such as less
+    #They are the delimiters for:
+    #30/^^: classificationRecordSet
+    #31/^_: classificationRecord
+    #32/  : classificationObject
     def __init__(self, delimiters = [30,31,32], case_sensitive = False):
 
         self.delimiters = delimiters
