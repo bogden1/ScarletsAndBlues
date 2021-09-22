@@ -99,6 +99,7 @@ if __name__ == "__main__":
     RA.align(A,B)
     print("A:",A,"B:",B)
     print(RA.alignments)
+    print()
 
     A = "abc|def|ghi"
     B = "abc|de^f|ghi"
@@ -106,6 +107,7 @@ if __name__ == "__main__":
     RA.align(A,B)
     print("A:",A,"B:",B)
     print(RA.alignments)
+    print()
 
     A = "abc|def|gh ij"
     B = "abc|def|gh j"
@@ -113,6 +115,7 @@ if __name__ == "__main__":
     RA.align(A,B)
     print("A:",A,"B:",B)
     print(RA.alignments)
+    print()
 
     A = "abc|def"
     B = "g|def"
@@ -120,3 +123,4 @@ if __name__ == "__main__":
     RA.align(A,B)
     print("A:",A,"B:",B)
     print(RA.alignments)
+    print()
