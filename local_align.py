@@ -166,14 +166,17 @@ def all_alignment(T,A,B):
             break
 
     # If there are characters left at beginning of strings then add them to the alignment too
-    if np.max(S) > 0:
-        while i != 0:
+    if np.max(S) == 0:
+        i, j = S.shape
+        i -= 1
+        j -= 1
+        while i > 0:
             #z[0] += X[i-1]
             alignment.append((i-1, None))
             #z[1] += "~"
             i -= 1
 
-        while j != 0:
+        while j > 0:
             #z[0] += Y[j-1]
             #z[1] += "~"
             alignment.append((None, j-1))

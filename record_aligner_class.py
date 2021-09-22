@@ -113,3 +113,10 @@ if __name__ == "__main__":
     RA.align(A,B)
     print("A:",A,"B:",B)
     print(RA.alignments)
+
+    A = "abc|def"
+    B = "g|def"
+    RA = recordAligner(delimiters = [ord('|'), ord('^'), 32])
+    RA.align(A,B)
+    print("A:",A,"B:",B)
+    print(RA.alignments)
