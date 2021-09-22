@@ -23,6 +23,15 @@ def standard_minute(ann):
       {'task': 'T14_mc_sm_r', 'value': None} #Dummy task to close the record on/open a new record
     ]
 
+def attendance_list(ann):
+    assert ann['task'] == 'T3'
+    if len(ann['value'].strip()) == 0: return []
+    attenders = []
+    for a in ann['value'].split('\n'):
+      attenders.append({'task': 'T3_f', 'value': a.strip()})
+      attenders.append({'task': 'T3_r', 'value': None})
+    return attenders
+
 def new_record(old_paths, new_paths):
     #Map RecordSet index to Record index
     old_recs = {p[0]: p[1] for p in old_paths}
@@ -77,9 +86,10 @@ if __name__ == '__main__':
     C.add_taskactions('minutes', 'annotations', 'close',['T55','T15','T14_mc_sm_r'])
     C.add_taskactions('minutes', 'annotations', 'add',['T22','T13','T5','T6','T10','T14_mc_sm_f'])
     C.add_taskactions('minutes', 'annotations', standard_minute, 'T14_mc')
-    C.add_taskactions('attendance', 'annotations', 'create', ['T11', 'T9_mc'])
-    C.add_taskactions('attendance', 'annotations', 'close', ['T14', 'T9_mc'])
-    C.add_taskactions('attendance', 'annotations', 'add', 'T9_mc')
+    C.add_taskactions('attendance', 'annotations', 'create', ['T11', 'T9_mc', 'T3', 'T3_r'])
+    C.add_taskactions('attendance', 'annotations', 'close', ['T14', 'T9_mc', 'T3', 'T3_r'])
+    C.add_taskactions('attendance', 'annotations', 'add', ['T9_mc', 'T3_f'])
+    C.add_taskactions('attendance', 'annotations', attendance_list, 'T3')
 
     from calc_confidence import probabilityTree, similarityComparator, equalsComparator, missingComparator, confidenceCalculator
     PT1 = probabilityTree(similarityComparator(), {1:0.6, 2:0.3, '*': 0.1})
