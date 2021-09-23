@@ -96,7 +96,7 @@ def main(sub_workflow):
         "tables":     [],
     }
     workflow_version = {"Meetings": 71.196,
-                        "People": (0, 31.82)}
+                        "People": 31.82}
     data_files = {"Meetings": "exports/meetings-classifications.csv",
                   "People": "exports/people-classifications.csv"}
     data_file_name = data_files[workflow[sub_workflow]]
