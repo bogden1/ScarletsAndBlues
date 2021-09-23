@@ -107,7 +107,7 @@ def main(sub_workflow):
     C = annotationComparer()
     C.add_taskactions('persons',   'annotations', 'create',['T20','T7'])
     C.add_taskactions('persons',   'annotations', 'close','T7')
-    C.add_taskactions('persons',   'annotations', 'add',['T1','T2','T10','T11'])
+    C.add_taskactions('persons',   'annotations', 'add',['T1','T2','T10','T11','T26','T6'])
     C.add_taskactions('minutes', 'annotations', 'create',['T8','T37','T15','T55','T0','T14_mc_sm_r'])
     C.add_taskactions('minutes', 'annotations', 'close',['T55','T15','T14_mc_sm_r'])
     C.add_taskactions('minutes', 'annotations', 'add',['T22','T13','T5','T6','T10','T14_mc_sm_f'])
