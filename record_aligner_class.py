@@ -21,7 +21,7 @@ class recordAligner:
         #print("A:",recordA[0:50])
 #        #print("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~")
         #print("B:",recordB[0:50])
-        print("NW:",NW[0:50])
+        #print("NW:",NW[0:50])
 
         self.alignments = {}
         p1 = 0

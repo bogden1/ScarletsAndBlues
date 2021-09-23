@@ -136,7 +136,7 @@ def main(sub_workflow):
         print("New subject:", prev_subject)
         C.do_annotation_alignment()
         rec_ids = C.get_alignment_mapping() #List of pairwise record comparisons sufficient to compare all records
-        print("Rec ids", rec_ids)
+        #print("Rec ids", rec_ids)
 
         old_paths = {}
         output_record_number = -1 #Will be incremented by 1 before first use
@@ -175,7 +175,7 @@ def main(sub_workflow):
     workflow_output = []
     subject_it = DR.workflow_subject_iter(workflow[sub_workflow])
     first_row = DR.get_row_by_id(next(subject_it))
-    print(first_row.items.keys())
+    #print(first_row.items.keys())
     C.add_row(first_row, sub_workflow)
     prev_subject = first_row.get_by_key("subject_name")
     for row_id in subject_it:
@@ -184,7 +184,7 @@ def main(sub_workflow):
         classification_id = row.get_by_key("classification_id")
         if subject_name != prev_subject:
             workflow_output.extend(align_prev_subject())
-        print(row.items.keys())
+        #print(row.items.keys())
         C.add_row(row, sub_workflow)
         prev_subject = subject_name
     workflow_output.extend(align_prev_subject())

@@ -80,7 +80,7 @@ class annotationComparer:
         self.sorted_texts = sorted(range(len(self.record_lengths)), key=lambda k: self.record_lengths[k], reverse=True)
         self.sorted_texts = [i for i in range(len(self.record_lengths))]
 
-        print("Texts:",len(self.annotation_texts),"Order:",self.sorted_texts)
+        #print("Texts:",len(self.annotation_texts),"Order:",self.sorted_texts)
 
         #for s in self.sorted_texts:
         #    print("~~~~~~~~~~~~~~~~~~~~")
