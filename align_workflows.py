@@ -117,7 +117,7 @@ def main(sub_workflow):
     C.add_taskactions('attendance', 'annotations', 'add', ['T9_mc', 'T3_f'])
     C.add_taskactions('attendance', 'annotations', attendance_list, 'T3')
     C.add_taskactions('tables', 'annotations', 'create', ['T8', 'T37', 'T20', 'T20_r', 'T23', 'T24'])
-    C.add_taskactions('tables', 'annotations', 'close', ['T7', 'T37', 'T20', 'T20_r', 'T23', 'T24'])
+    C.add_taskactions('tables', 'annotations', 'close', ['T37', 'T20', 'T20_r', 'T23', 'T24'])
     C.add_taskactions('tables', 'annotations', table_rows, 'T20')
     C.add_taskactions('tables', 'annotations', table_col_headings, 'T23')
     C.add_taskactions('tables', 'annotations', 'add', ['T21', 'T24', 'T20_f', 'T23_f'])
