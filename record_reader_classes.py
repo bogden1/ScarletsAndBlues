@@ -209,7 +209,7 @@ class classificationRecordSet(classificationObject):
                             assert 'task' in v, 'Broken assumption: value list can only be all tasks or all something else'
                             ann_queue.append(v)
                     else: #assume this is a multichoice -- which we happen to want to treat as multiple records of the given task type
-                        for v in this_ann['value']:
+                        for v in sorted(this_ann['value']): #We aren't bothered about the order (which might not match what is on the page anyway) and sorting these will make alignment easier
                             ann_queue.append({'task': f'{this_ann["task"]}_mc', 'value': v})
 
                 if this_ann['task'] in self.actions:  # only interested in certain tasks
