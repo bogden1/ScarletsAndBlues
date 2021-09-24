@@ -129,3 +129,19 @@ if __name__ == "__main__":
     print("A:",A,"B:",B)
     print(RA.alignments)
     print()
+
+    A = "abc|def"
+    B = "abc|g"
+    RA = recordAligner(delimiters = [ord('|'), ord('^'), 32])
+    RA.align(A,B)
+    print("A:",A,"B:",B)
+    print(RA.alignments)
+    print()
+
+    A = "abc|def|ghi"
+    B = "abc|ghi"
+    RA = recordAligner(delimiters = [ord('|'), ord('^'), 32])
+    RA.align(A,B)
+    print("A:",A,"B:",B)
+    print(RA.alignments)
+    print()
