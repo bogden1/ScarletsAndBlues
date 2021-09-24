@@ -181,7 +181,6 @@ def main(sub_workflow):
     for row_id in subject_it:
         row = DR.get_row_by_id(row_id)
         subject_name = row.get_by_key("subject_name")
-        classification_id = row.get_by_key("classification_id")
         if subject_name != prev_subject:
             workflow_output.extend(align_prev_subject())
         #print(row.items.keys())
