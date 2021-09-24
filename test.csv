@@ -1,0 +1,7 @@
+classification_id,user_name,user_id,user_ip,workflow_id,workflow_name,workflow_version,created_at,gold_standard,expert,metadata,annotations,subject_data,subject_ids
+1,fake_person1,fp1,,18504,Test,1,,,,,"[{""task"":""T1"", ""value"":""""},{""task"":""T2"", ""value"":""abc""},{""task"":""T2"", ""value"":""def""},{""task"":""T1"", ""value"":""""}]","{""1"":{""name"":""Subject1""}}",1
+2,fake_person2,fp2,,18504,Test,1,,,,,"[{""task"":""T1"", ""value"":""""},{""task"":""T2"", ""value"":""abc""},{""task"":""T2"", ""value"":""g""},{""task"":""T1"", ""value"":""""}]","{""1"":{""name"":""Subject1""}}",1
+3,fake_person1,fp1,,18504,Test,1,,,,,"[{""task"":""T1"", ""value"":""""},{""task"":""T2"", ""value"":""abc""},{""task"":""T2"", ""value"":""def""},{""task"":""T1"", ""value"":""""}]","{""2"":{""name"":""Subject2""}}",2
+4,fake_person2,fp2,,18504,Test,1,,,,,"[{""task"":""T1"", ""value"":""""},{""task"":""T2"", ""value"":""g""},{""task"":""T2"", ""value"":""def""},{""task"":""T1"", ""value"":""""}]","{""2"":{""name"":""Subject2""}}",2
+5,fake_person1,fp1,,18504,Test,1,,,,,"[{""task"":""T1"", ""value"":""""},{""task"":""T2"", ""value"":""abc""},{""task"":""T2"", ""value"":""def""},{""task"":""T2"", ""value"":""ghi""},{""task"":""T1"", ""value"":""""}]","{""3"":{""name"":""Subject3""}}",3
+6,fake_person2,fp2,,18504,Test,1,,,,,"[{""task"":""T1"", ""value"":""""},{""task"":""T2"", ""value"":""abc""},{""task"":""T2"", ""value"":""ghi""},{""task"":""T1"", ""value"":""""}]","{""3"":{""name"":""Subject3""}}",3
