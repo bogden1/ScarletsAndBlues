@@ -82,13 +82,14 @@ def new_record(old_paths, new_paths):
             return True
 
 
+workflow = {
+    "persons": "People",
+    "minutes": "Meetings",
+    "attendance": "Meetings",
+    "tables": "Meetings",
+}
+
 def main(sub_workflow):
-    workflow = {
-        "persons": "People",
-        "minutes": "Meetings",
-        "attendance": "Meetings",
-        "tables": "Meetings",
-    }
     headings = {
         "persons":    ['Surname', 'First name(s)', 'Title', 'Position', 'Subject', 'Pages'],
         "minutes":    ['#', 'Title', 'Item', 'Resolution', 'Subject'],
