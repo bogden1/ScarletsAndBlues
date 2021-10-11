@@ -9,6 +9,7 @@ from collections import OrderedDict, defaultdict
 from multi_align import MultiAlign
 from utils import add_to_dict_num, add_to_dict_list
 import sys
+import os.path
 
 #Begin callbacks -- might make sense to put these in their own file
 def standard_minute(ann):
@@ -202,6 +203,9 @@ def main(sub_workflow):
 
 
 if __name__ == '__main__':
+    if not os.path.isdir('output'):
+        print('Output directory "output" does not exist', file=sys.stderr)
+        sys.exit(1)
     if len(sys.argv) > 1: sub_workflows = sys.argv[1:]
     else: sub_workflows = workflow.keys()
     for x in sub_workflows:
