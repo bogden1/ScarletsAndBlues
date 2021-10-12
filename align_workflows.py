@@ -97,8 +97,8 @@ def main(args):
         "attendance": ['Name'],
         "tables":     [],
     }
-    workflow_version = {"Meetings": 71.196,
-                        "People": 31.82}
+    workflow_version = {"Meetings": args.meetings_version,
+                        "People": args.people_version}
     data_files = {"Meetings": "exports/meetings-classifications.csv",
                   "People": "exports/people-classifications.csv"}
     
@@ -209,6 +209,8 @@ if __name__ == '__main__':
 
     parser = argparse.ArgumentParser()
     parser.add_argument('sub_workflows', nargs = '*', default = workflow.keys())
+    parser.add_argument('--meetings-version', '-m', type = float, default = 72.196)
+    parser.add_argument('--people-version', '-p', type = float, default = 31.82)
 
     if not os.path.isdir('output'):
         print('Output directory "output" does not exist', file=sys.stderr)
