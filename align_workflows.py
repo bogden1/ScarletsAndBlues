@@ -177,7 +177,7 @@ def main(args):
           return [[unresolved[number], prev_subject, number + 1, *fields] for number, fields in output_records.items()]
 
       workflow_output = []
-      subject_it = DR.workflow_subject_iter(workflow[sub_workflow])
+      subject_it = DR.workflow_subject_iter(workflow[sub_workflow], args.classifications)
       row_id = next(subject_it, None)
       if row_id:
           first_row = DR.get_row_by_id(row_id)
@@ -213,6 +213,7 @@ if __name__ == '__main__':
     parser.add_argument('sub_workflows', nargs = '*', default = workflow.keys())
     parser.add_argument('--start-date', '-s')
     parser.add_argument('--end-date', '-e')
+    parser.add_argument('--classifications', '-c', type = int, default = 1)
     parser.add_argument('--meetings-version', '-m', type = float, default = 72.196)
     parser.add_argument('--people-version', '-p', type = float, default = 31.82)
     parser.add_argument('--outdir', '-o', default = 'output')
