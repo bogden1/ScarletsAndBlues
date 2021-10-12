@@ -198,7 +198,7 @@ def main(args):
           if x[0] == 0:
               x[0] = None
 
-      with open(f'output/{sub_workflow}.csv', 'w') as f:
+      with open(f'{args.outdir}/{sub_workflow}.csv', 'w') as f:
           w = csv.writer(f)
           w.writerow(['Unresolved', 'Page', 'Record'] + headings[sub_workflow])
           w.writerows(workflow_output)
@@ -213,9 +213,12 @@ if __name__ == '__main__':
     parser.add_argument('--end-date', '-e')
     parser.add_argument('--meetings-version', '-m', type = float, default = 72.196)
     parser.add_argument('--people-version', '-p', type = float, default = 31.82)
+    parser.add_argument('--outdir', '-o', default = 'output')
 
-    if not os.path.isdir('output'):
-        print('Output directory "output" does not exist', file=sys.stderr)
+    args = parser.parse_args()
+
+    if not os.path.isdir(args.outdir):
+        print(f'Output directory "{args.outdir}" does not exist', file=sys.stderr)
         sys.exit(1)
 
-    main(parser.parse_args())
+    main(args)
