@@ -210,13 +210,13 @@ if __name__ == '__main__':
     import argparse
 
     parser = argparse.ArgumentParser()
-    parser.add_argument('sub_workflows', nargs = '*', default = workflow.keys())
-    parser.add_argument('--start-date', '-s')
-    parser.add_argument('--end-date', '-e')
-    parser.add_argument('--classifications', '-c', type = int, default = 1)
-    parser.add_argument('--meetings-version', '-m', type = float, default = 72.196)
-    parser.add_argument('--people-version', '-p', type = float, default = 31.82)
-    parser.add_argument('--outdir', '-o', default = 'output')
+    parser.add_argument('sub_workflows', nargs = '*', default = workflow.keys(), help = f'Specify sub-workflows from {", ".join(workflow.keys())}. Will do all of them by default.')
+    parser.add_argument('--start-date', '-s', help = 'Specify a start date to take classifications from (inclusive). YYYY-MM-DD format.')
+    parser.add_argument('--end-date', '-e', help = 'Specify an end date to take classifications to (inclusive). YYYY-MM-DD format.')
+    parser.add_argument('--classifications', '-c', type = int, default = 1, help = 'Minimum number of classifications required for inclusion.')
+    parser.add_argument('--meetings-version', '-m', type = float, default = 72.196, help = 'Version number of the Meetings workflow to use.')
+    parser.add_argument('--people-version', '-p', type = float, default = 31.82, help = 'Version number of the People workflow to use.')
+    parser.add_argument('--outdir', '-o', default = 'output', help = 'Directory to place output files in.')
 
     args = parser.parse_args()
 
