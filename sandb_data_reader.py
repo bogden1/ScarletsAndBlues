@@ -59,6 +59,7 @@ class sandbDataReader:
 
     def workflow_subject_iter(self, workflow, min_count=1,max_count=100):
         
+        if not workflow in self.workflow_subject_index: return
         subject_index = self.workflow_subject_index[workflow]
         for k in sorted(subject_index.keys()):
             v = subject_index[k]

@@ -178,19 +178,21 @@ def main(args):
 
       workflow_output = []
       subject_it = DR.workflow_subject_iter(workflow[sub_workflow])
-      first_row = DR.get_row_by_id(next(subject_it))
-      #print(first_row.items.keys())
-      C.add_row(first_row, sub_workflow)
-      prev_subject = first_row.get_by_key("subject_name")
-      for row_id in subject_it:
-          row = DR.get_row_by_id(row_id)
-          subject_name = row.get_by_key("subject_name")
-          if subject_name != prev_subject:
-              workflow_output.extend(align_prev_subject())
-          #print(row.items.keys())
-          C.add_row(row, sub_workflow)
-          prev_subject = subject_name
-      workflow_output.extend(align_prev_subject())
+      row_id = next(subject_it, None)
+      if row_id:
+          first_row = DR.get_row_by_id(row_id)
+          #print(first_row.items.keys())
+          C.add_row(first_row, sub_workflow)
+          prev_subject = first_row.get_by_key("subject_name")
+          for row_id in subject_it:
+              row = DR.get_row_by_id(row_id)
+              subject_name = row.get_by_key("subject_name")
+              if subject_name != prev_subject:
+                  workflow_output.extend(align_prev_subject())
+              #print(row.items.keys())
+              C.add_row(row, sub_workflow)
+              prev_subject = subject_name
+          workflow_output.extend(align_prev_subject())
 
       import csv
       #In the CSV file, I want the 'Unresolved' column to have empty cells where nothing was unresolved
