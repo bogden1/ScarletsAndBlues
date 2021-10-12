@@ -99,8 +99,8 @@ def main(args):
     }
     workflow_version = {"Meetings": args.meetings_version,
                         "People": args.people_version}
-    data_files = {"Meetings": "exports/meetings-classifications.csv",
-                  "People": "exports/people-classifications.csv"}
+    data_files = {"Meetings": f"{args.indir}/meetings-classifications.csv",
+                  "People": f"{args.indir}/people-classifications.csv"}
     
     for sub_workflow in args.sub_workflows:
       data_file_name = data_files[workflow[sub_workflow]]
@@ -217,6 +217,7 @@ if __name__ == '__main__':
     parser.add_argument('--meetings-version', '-m', type = float, default = 72.196, help = 'Version number of the Meetings workflow to use.')
     parser.add_argument('--people-version', '-p', type = float, default = 31.82, help = 'Version number of the People workflow to use.')
     parser.add_argument('--outdir', '-o', default = 'output', help = 'Directory to place output files in.')
+    parser.add_argument('--indir', '-i', default = 'exports', help = 'Directory to read Zooniverse data exports from.')
 
     args = parser.parse_args()
 
