@@ -106,7 +106,7 @@ def main(args):
       data_file_name = data_files[workflow[sub_workflow]]
 
       DR = sandbDataReader()
-      DR.load_data(data_file_name, workflow_version[workflow[sub_workflow]])
+      DR.load_data(data_file_name, workflow_version[workflow[sub_workflow]], args.after)
 
       C = annotationComparer()
       C.add_taskactions('persons',   'annotations', 'create',['T20','T7'])
@@ -209,6 +209,7 @@ if __name__ == '__main__':
 
     parser = argparse.ArgumentParser()
     parser.add_argument('sub_workflows', nargs = '*', default = workflow.keys())
+    parser.add_argument('--after', '-a')
     parser.add_argument('--meetings-version', '-m', type = float, default = 72.196)
     parser.add_argument('--people-version', '-p', type = float, default = 31.82)
 
