@@ -14,9 +14,11 @@ class sandbDataReader:
         self.user_index = {}
         self.workflow_subject_index = {}
 
-    def load_data(self, data_file_name, version = None, after_date = None):
-        if not after_date is None:
-            date_limit = datetime.strptime(after_date, '%Y-%m-%d') #Will fault on bad format
+    def load_data(self, data_file_name, version = None, start_date = None, end_date = None):
+        if start_date:
+            start_date = datetime.strptime(start_date, '%Y-%m-%d') #Will fault on bad format
+        if end_date:
+            end_date = datetime.strptime(end_date, '%Y-%m-%d') #Will fault on bad format
 
         self.data_file_name = data_file_name
         file_handle = open(data_file_name, 'r')
@@ -32,11 +34,13 @@ class sandbDataReader:
                 else: #Should be some indexable type defining min and max version nos, inclusive
                     if row_version < version[0] or row_version > version[1]:
                         continue
-            if not after_date is None:
+            if start_date or end_date:
                 str_date = json.loads(row[10])['finished_at'] #Field index 10 is the metadata
                 assert str_date[10] == 'T'
                 date = datetime.strptime(str_date[:10], '%Y-%m-%d') #Will fault on bad format
-                if date <= date_limit:
+                if start_date and date < start_date:
+                    continue
+                if end_date and date > end_date:
                     continue
             R = classificationRow()
             R.add_row(row)
