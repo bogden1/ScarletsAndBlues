@@ -229,11 +229,15 @@ if __name__ == '__main__':
     parser.add_argument('--outdir', '-o', default = 'output', help = 'Directory to place output files in.')
     parser.add_argument('--indir', '-i', default = 'exports', help = 'Directory to read Zooniverse data exports from.')
     parser.add_argument('--verbose', '-v', type = int, nargs = '?', default = 0, const = 1, help = 'Print more information to stdout. Add a numerical arg to increase verbosity level.')
+    parser.add_argument('--force', action = 'store_true', help = 'Do not check that output directory is empty.')
 
     args = parser.parse_args()
 
     if not os.path.isdir(args.outdir):
-        print(f'Output directory "{args.outdir}" does not exist', file=sys.stderr)
+        print(f'Output directory "{args.outdir}" does not exist, creating...')
+        os.mkdir(args.outdir)
+    if os.listdir(args.outdir) and not args.force:
+        print(f'Output directory "{args.outdir}" is not empty. --force to override.', file=sys.stderr)
         sys.exit(1)
 
     main(args)
