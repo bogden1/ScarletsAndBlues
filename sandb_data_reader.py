@@ -2,6 +2,7 @@
 
 import csv
 import json
+import random
 from datetime import datetime
 from utils import add_to_dict_num, add_to_dict_list
 from record_reader_classes import classificationRow
@@ -91,15 +92,28 @@ class sandbDataReader:
             add_to_dict_list(task_dict, subject_name, row_id)
 
 
-    def workflow_subject_iter(self, workflow, min_count=1,max_count=100):
+    def workflow_subject_iter(self, workflow, min_count=1,max_count=100,sample_size=0):
         
         if not workflow in self.workflow_subject_index: return
         subject_index = self.workflow_subject_index[workflow]
         for k in sorted(subject_index.keys()):
             v = subject_index[k]
             if min_count <= len(v) <= max_count:
-                for row_id in v:
-                    yield row_id
+                if sample_size:
+                    sample = random.sample(v, sample_size)
+                    if report.verbosity >= 2 and sample_size < len(v):
+                        assert len(v) > 0
+                        row = self.get_row_by_id(v[0])
+                        name = row.get_by_key('subject_name')
+                        sid = row.get_by_key('subject_ids')
+                        sample_cids = frozenset([self.get_row_by_id(x).get_by_key('classification_id') for x in sample])
+                        all_cids = frozenset([self.get_row_by_id(x).get_by_key('classification_id') for x in v])
+                        report(2, f'Sampled classifications {list(sample_cids)} for subject {sid} ({name}). Unused classifications: {list(all_cids.difference(sample_cids))}.')
+                    for row_id in sample:
+                        yield row_id
+                else:
+                    for row_id in v:
+                        yield row_id
             elif report.verbosity >= 2:
                 assert len(v) > 0
                 row = self.get_row_by_id(v[0])

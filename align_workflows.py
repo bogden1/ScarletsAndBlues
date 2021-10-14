@@ -181,7 +181,7 @@ def main(args):
           return [[unresolved[number], prev_subject, number + 1, *fields] for number, fields in output_records.items()]
 
       workflow_output = []
-      subject_it = DR.workflow_subject_iter(workflow[sub_workflow], args.classifications)
+      subject_it = DR.workflow_subject_iter(workflow[sub_workflow], args.classifications, 999, args.sample)
       row_id = next(subject_it, None)
       if not row_id is None:
           first_row = DR.get_row_by_id(row_id)
@@ -230,6 +230,7 @@ if __name__ == '__main__':
     parser.add_argument('--indir', '-i', default = 'exports', help = 'Directory to read Zooniverse data exports from.')
     parser.add_argument('--verbose', '-v', type = int, nargs = '?', default = 0, const = 1, help = 'Print more information to stdout. Add a numerical arg to increase verbosity level.')
     parser.add_argument('--force', action = 'store_true', help = 'Do not check that output directory is empty.')
+    parser.add_argument('--sample', type = int, default = 0, help = 'Specify a number of classifications to use for each subject. Classifications will be randomly selected from all classifications for the subject. Total classifications for the subject must still be within the range required for inclusion, so subjects with too few or too many classifications will still be excluded.')
 
     args = parser.parse_args()
 
