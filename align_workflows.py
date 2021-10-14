@@ -182,7 +182,7 @@ def main(args):
       workflow_output = []
       subject_it = DR.workflow_subject_iter(workflow[sub_workflow], args.classifications)
       row_id = next(subject_it, None)
-      if row_id:
+      if not row_id is None:
           first_row = DR.get_row_by_id(row_id)
           #print(first_row.items.keys())
           C.add_row(first_row, sub_workflow)
