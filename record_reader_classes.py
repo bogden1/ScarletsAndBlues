@@ -94,7 +94,7 @@ class classificationObject:
                 assert(index[0] != -1)
                 #if index[0] == -1:
                 #    return ""
-                assert(index[0] >= 0 and index[0] < len(self.key_index))
+                assert(index[0] >= 0 and index[0] < len(self.key_index)), f'{index[0]}, {len(self.key_index)}, {self.key_index}'
                 #if index[0] >= len(self.key_index):
                 #    return self.items
                 return self.items[self.key_index[index[0]]]
