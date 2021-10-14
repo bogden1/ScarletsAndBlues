@@ -108,7 +108,7 @@ def main(args):
       data_file_name = data_files[workflow[sub_workflow]]
 
       DR = sandbDataReader()
-      DR.load_data(data_file_name, workflow_version[workflow[sub_workflow]], args.start_date, args.end_date)
+      DR.load_data(data_file_name, workflow_version[workflow[sub_workflow]], args.start_date, args.end_date, args.subject_ids, args.classification_ids)
 
       C = annotationComparer()
       C.add_taskactions('persons',   'annotations', 'create',['T20','T7'])
@@ -223,6 +223,8 @@ if __name__ == '__main__':
     parser.add_argument('--classifications', '-c', type = int, default = 1, help = 'Minimum number of classifications required for inclusion.')
     parser.add_argument('--meetings-version', '-m', type = float, default = 72.196, help = 'Version number of the Meetings workflow to use.')
     parser.add_argument('--people-version', '-p', type = float, default = 31.82, help = 'Version number of the People workflow to use.')
+    parser.add_argument('--subject-ids', nargs = '*', type = int, default = [], help = f'List (Zooniverse) subject ids to include. Put 0 as the first id to exclude them instead.')
+    parser.add_argument('--classification-ids', nargs = '*', type = int, default = [], help = f'List (Zooniverse) classification ids to include. Put 0 as the first id to exclude them instead.')
     parser.add_argument('--outdir', '-o', default = 'output', help = 'Directory to place output files in.')
     parser.add_argument('--indir', '-i', default = 'exports', help = 'Directory to read Zooniverse data exports from.')
     parser.add_argument('--verbose', '-v', type = int, nargs = '?', default = 0, const = 1, help = 'Print more information to stdout. Add a numerical arg to increase verbosity level.')

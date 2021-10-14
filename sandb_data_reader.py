@@ -14,7 +14,7 @@ class sandbDataReader:
         self.user_index = {}
         self.workflow_subject_index = {}
 
-    def load_data(self, data_file_name, version = None, start_date = None, end_date = None):
+    def load_data(self, data_file_name, version = None, start_date = None, end_date = None, subject_ids = None, classification_ids = None):
         if start_date:
             start_date = datetime.strptime(start_date, '%Y-%m-%d') #Will fault on bad format
         if end_date:
@@ -26,6 +26,20 @@ class sandbDataReader:
         next(csv_reader) #Ignore headings
 
         for row in csv_reader:
+            if classification_ids:
+                if classification_ids[0] == 0:
+                    if     int(row[0]) in classification_ids[1:]:
+                        continue
+                else:
+                    if not int(row[0]) in classification_ids:
+                        continue
+            if subject_ids:
+                if subject_ids[0] == 0:
+                    if     int(row[13]) in subject_ids[1:]:
+                        continue
+                else:
+                    if not int(row[13]) in subject_ids:
+                        continue
             if not version is None:
                 row_version = float(row[6]) #Field index 6 is the workflow version
                 if isinstance(version, float):
