@@ -103,6 +103,8 @@ def main(args):
                   "People": f"{args.indir}/people-classifications.csv"}
     
     for sub_workflow in args.sub_workflows:
+      print(f'\nProcessing sub-workflow {sub_workflow}')
+      print(  f'------------------------{"-" * len(sub_workflow)}')
       data_file_name = data_files[workflow[sub_workflow]]
 
       DR = sandbDataReader()
@@ -137,7 +139,7 @@ def main(args):
 
       def align_prev_subject():
           #print("index",C.annotation_key_index)
-          print("New subject:", prev_subject)
+          print(f"New subject: {prev_subject} {prev_subject_ids}")
           C.do_annotation_alignment()
           rec_ids = C.get_alignment_mapping() #List of pairwise record comparisons sufficient to compare all records
           #print("Rec ids", rec_ids)
@@ -184,6 +186,7 @@ def main(args):
           #print(first_row.items.keys())
           C.add_row(first_row, sub_workflow)
           prev_subject = first_row.get_by_key("subject_name")
+          prev_subject_ids = first_row.get_by_key("subject_ids")
           for row_id in subject_it:
               row = DR.get_row_by_id(row_id)
               subject_name = row.get_by_key("subject_name")
@@ -192,6 +195,7 @@ def main(args):
               #print(row.items.keys())
               C.add_row(row, sub_workflow)
               prev_subject = subject_name
+              prev_subject_ids = row.get_by_key("subject_ids")
           workflow_output.extend(align_prev_subject())
 
       import csv
@@ -207,6 +211,8 @@ def main(args):
 
 
 if __name__ == '__main__':
+    print(*sys.argv)
+
     import argparse
 
     parser = argparse.ArgumentParser()
