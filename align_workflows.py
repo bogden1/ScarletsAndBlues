@@ -201,16 +201,26 @@ def main(args):
           workflow_output.extend(align_prev_subject())
 
       import csv
-      #In the CSV file, I want the 'Unresolved' column to have empty cells where nothing was unresolved
+      unresolved = 0
+      total = len(headings[sub_workflow]) * len(workflow_output)
       for x in workflow_output:
+          unresolved += x[0]
           if x[0] == 0:
-              x[0] = None
+              x[0] = None #In the CSV file, I want the 'Unresolved' column to have empty cells where nothing was unresolved
 
       with open(f'{args.outdir}/{sub_workflow}.csv', 'w') as f:
           w = csv.writer(f)
           w.writerow(['Unresolved', 'Page', 'Record'] + headings[sub_workflow])
           w.writerows(workflow_output)
 
+      print()
+      report(0, 'Summary Statistics')
+      report(0, '------------------')
+      report(0, 'Total records:     ', f'{len(workflow_output):5}')
+      report(0, 'Total fields:      ', f'{total:5}')
+      if(total > 0):
+          report(0, 'Resolved fields:   ', f'{total - unresolved:5}', f'({100 * (total - unresolved) / total:2.0f}%)')
+          report(0, 'Unresolved fields: ', f'{unresolved:5}', f'({100 * unresolved / total:2.0f}%)')
 
 if __name__ == '__main__':
     print(*sys.argv)
