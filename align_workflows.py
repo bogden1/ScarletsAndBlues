@@ -166,7 +166,8 @@ def main(args):
               if suggestion == classificationWord.delimiter:
                   suggestion = ''
 
-              print(output_record_number,"\t",[C.annotation_key_index[x[0]] for x in paths],"\t",paths,"\t",classification_strs,"\t", [suggestion, probability, decibans])
+              if args.verbose > 0:
+                  print(output_record_number,"\t",[C.annotation_key_index[x[0]] for x in paths],"\t",paths,"\t",classification_strs,"\t", [suggestion, probability, decibans])
               if decibans > 5:
                   output_records[output_record_number].append(suggestion)
               else:
@@ -224,6 +225,7 @@ if __name__ == '__main__':
     parser.add_argument('--people-version', '-p', type = float, default = 31.82, help = 'Version number of the People workflow to use.')
     parser.add_argument('--outdir', '-o', default = 'output', help = 'Directory to place output files in.')
     parser.add_argument('--indir', '-i', default = 'exports', help = 'Directory to read Zooniverse data exports from.')
+    parser.add_argument('--verbose', '-v', type = int, nargs = '?', default = 0, const = 1, help = 'Print more information to stdout. Add a numerical arg to increase verbosity level.')
 
     args = parser.parse_args()
 
