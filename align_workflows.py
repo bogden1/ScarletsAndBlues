@@ -7,7 +7,7 @@ from sandb_data_reader import sandbDataReader
 from local_align import local_align, all_alignment
 from collections import OrderedDict, defaultdict
 from multi_align import MultiAlign
-from utils import add_to_dict_num, add_to_dict_list
+from utils import add_to_dict_num, add_to_dict_list, report
 import sys
 import os.path
 
@@ -102,7 +102,9 @@ def main(args):
     data_files = {"Meetings": f"{args.indir}/meetings-classifications.csv",
                   "People": f"{args.indir}/people-classifications.csv"}
     
+    report.verbosity = args.verbose
     for sub_workflow in args.sub_workflows:
+      report.context = sub_workflow
       print(f'\nProcessing sub-workflow {sub_workflow}')
       print(  f'------------------------{"-" * len(sub_workflow)}')
       data_file_name = data_files[workflow[sub_workflow]]
@@ -166,8 +168,7 @@ def main(args):
               if suggestion == classificationWord.delimiter:
                   suggestion = ''
 
-              if args.verbose > 0:
-                  print(output_record_number,"\t",[C.annotation_key_index[x[0]] for x in paths],"\t",paths,"\t",classification_strs,"\t", [suggestion, probability, decibans])
+              report(1, output_record_number,"\t",[C.annotation_key_index[x[0]] for x in paths],"\t",paths,"\t",classification_strs,"\t", [suggestion, probability, decibans])
               if decibans > 5:
                   output_records[output_record_number].append(suggestion)
               else:

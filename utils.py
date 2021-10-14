@@ -11,4 +11,6 @@ def add_to_dict_list(D, k, v):
     else:
         D[k] = [v]
 
-
+def report(min_verbosity, *args):
+    if report.verbosity >= min_verbosity:
+        print(f'[{report.context}]', *args)
