@@ -100,6 +100,16 @@ class sandbDataReader:
             if min_count <= len(v) <= max_count:
                 for row_id in v:
                     yield row_id
+            elif report.verbosity >= 2:
+                assert len(v) > 0
+                row = self.get_row_by_id(v[0])
+                name = row.get_by_key('subject_name')
+                sid = row.get_by_key('subject_ids')
+                cids = [self.get_row_by_id(x).get_by_key('classification_id') for x in v]
+                if min_count > len(v):
+                    report(2, f'Skipped subject {sid} ({name}, classifications {cids}) due to {len(v)} < {min_count} (too few classifications)')
+                if max_count < len(v):
+                    report(2, f'Skipped subject {sid} ({name}, classifications {cids}) due to {len(v)} > {max_count} (too many classifications)')
 
     def get_row_by_id(self, row_id):
 
