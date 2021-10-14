@@ -4,9 +4,8 @@ import csv
 import json
 import random
 from datetime import datetime
-from utils import add_to_dict_num, add_to_dict_list
+from utils import add_to_dict_num, add_to_dict_list, report
 from record_reader_classes import classificationRow
-from utils import report
 
 class sandbDataReader:
 
