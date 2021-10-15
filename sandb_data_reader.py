@@ -26,6 +26,7 @@ class sandbDataReader:
         csv_reader = csv.reader(file_handle)
         next(csv_reader) #Ignore headings
 
+        skipped = total = 0
         def report_skip(field, *args, **kwargs):
             metadata = json.loads(row[12])[row[13]]
             if 'Name' in metadata: name = metadata['Name']
@@ -34,9 +35,13 @@ class sandbDataReader:
             if 'reason' in kwargs: reason = kwargs['reason']
             elif 'key' in kwargs: reason = json.loads(row[field])[kwargs['key']]
             else: reason = row[field]
+            nonlocal skipped
+            skipped += 1
             report(2, f'Skipped classification {row[0]} (subject {row[13]} ({name})) due to field {field} == {reason}', *args)
 
         for row in csv_reader:
+            total += 1
+
             if volunteer_handles:
                 if len(volunteer_handles[0]) == 0:
                     if     row[1] in volunteer_handles[1:]:
@@ -99,15 +104,21 @@ class sandbDataReader:
             task_dict = self.workflow_subject_index[task]
             add_to_dict_list(task_dict, subject_name, row_id)
 
+        report(2, f'Skipped {skipped} of {total} rows at read time.')
+
 
     def workflow_subject_iter(self, workflow, min_count=1,max_count=100,sample_size=0):
         
         if not workflow in self.workflow_subject_index: return
+        skipped_subjects = skipped_rows = total_subjects = total_rows = 0
         subject_index = self.workflow_subject_index[workflow]
         for k in sorted(subject_index.keys()):
+            total_subjects += 1
             v = subject_index[k]
+            total_rows += len(v)
             if min_count <= len(v) <= max_count:
                 if sample_size:
+                    skipped_rows += len(v) - sample_size
                     sample = random.sample(v, sample_size)
                     if report.verbosity >= 2 and sample_size < len(v):
                         assert len(v) > 0
@@ -124,6 +135,8 @@ class sandbDataReader:
                         yield row_id
             elif report.verbosity >= 2:
                 assert len(v) > 0
+                skipped_subjects += 1
+                skipped_rows += len(v)
                 row = self.get_row_by_id(v[0])
                 name = row.get_by_key('subject_name')
                 sid = row.get_by_key('subject_ids')
@@ -132,6 +145,8 @@ class sandbDataReader:
                     report(2, f'Skipped subject {sid} ({name}, classifications {cids}) due to {len(v)} < {min_count} (too few classifications)')
                 if max_count < len(v):
                     report(2, f'Skipped subject {sid} ({name}, classifications {cids}) due to {len(v)} > {max_count} (too many classifications)')
+
+        report(2, f'Skipped {skipped_subjects} subjects ({skipped_rows} classifications) of {total_subjects} total subjects ({total_rows} total classifications) at iterate time.')
 
     def get_row_by_id(self, row_id):
 
