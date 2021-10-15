@@ -15,7 +15,7 @@ class sandbDataReader:
         self.user_index = {}
         self.workflow_subject_index = {}
 
-    def load_data(self, data_file_name, version = None, start_date = None, end_date = None, subject_ids = None, classification_ids = None):
+    def load_data(self, data_file_name, version = None, start_date = None, end_date = None, subject_ids = None, classification_ids = None, volunteer_handles = None):
         if start_date:
             start_date = datetime.strptime(start_date, '%Y-%m-%d') #Will fault on bad format
         if end_date:
@@ -37,6 +37,15 @@ class sandbDataReader:
             report(2, f'Skipped classification {row[0]} (subject {row[13]} ({name})) due to field {field} == {reason}', *args)
 
         for row in csv_reader:
+            if volunteer_handles:
+                if len(volunteer_handles[0]) == 0:
+                    if     row[1] in volunteer_handles[1:]:
+                        report_skip(1, '(volunteer handle (exclusion)')
+                        continue
+                else:
+                    if not row[1] in volunteer_handles:
+                        report_skip(1, '(volunteer handle (inclusion)')
+                        continue
             if classification_ids:
                 if classification_ids[0] == 0:
                     if     int(row[0]) in classification_ids[1:]:
